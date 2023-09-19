@@ -2,15 +2,15 @@
 var playerOneWins = document.querySelector('#left-wins');
 var playerTwoWins = document.querySelector('#right-wins');
 var cellsOneThroughNine = {
-    cellOne: document.querySelector('#one'),
-    cellTwo: document.querySelector('#two'),
-    cellThree: document.querySelector('#three'),
-    cellFour: document.querySelector('#four'),
-    cellFive: document.querySelector('#five'),
-    cellSix: document.querySelector('#six'),
-    cellSeven: document.querySelector('#seven'),
-    cellEight: document.querySelector('#eight'),
-    cellNine: document.querySelector('#nine')
+    one: document.querySelector('#one'),
+    two: document.querySelector('#two'),
+    three: document.querySelector('#three'),
+    four: document.querySelector('#four'),
+    five: document.querySelector('#five'),
+    six: document.querySelector('#six'),
+    seven: document.querySelector('#seven'),
+    eight: document.querySelector('#eight'),
+    nine: document.querySelector('#nine')
 }
 var whosTurn = document.querySelector('.whos-turn-is-it')
 var boardGame = document.querySelector('.board')
@@ -29,16 +29,21 @@ var winningPossibilities = [
 var currentPlayerTurn = 'X';
 var playerOneChoices = [];
 var playerTwoChoices = [];
+var playerOne = createPlayer(1, 'X');
+var playerTwo = createPlayer(2, 'O');
+var cellClicked;
 
 
 //Event Listeners Here
+window.addEventListener('load', createPlayer);
 boardGame.addEventListener('click', playerPlays);
+
 
 
 //Functions Here
 function createPlayer(playerNumber, token) {
     return {
-        id: playerNumber,
+        name: playerNumber,
         token: token,
         wins: 0,
         losses: 0,
@@ -47,21 +52,31 @@ function createPlayer(playerNumber, token) {
     }
 };
 
-createPlayer(1, 'X');
-createPlayer(2, 'O');
-
-//function player turn
-//what needs to happen before that?
-
+//this function changes betwen X and O when clicking on cells
 function playerPlays(event) {
-    var cellClicked = event.target.closest('table');
-    var cellToAddToken = Object.keys(cellsOneThroughNine);
-    for (var i = 0; i < cellToAddToken.length; i++){
-        if (cellClicked === cellToAddToken[i] && !cellClicked.value) {
-            cellToAddToken[i].innerHTML = '';
-            cellToAddToken += currentPlayerTurn;
+    // console.log('hello')
+    //event.target is <td id='one'></td> so the cell clicked.id is one
+    // console.log(event.target);
+    cellClicked = event.target.closest('.cells');
+    var cellToAddToken = cellsOneThroughNine[cellClicked.id];
+    // console.log(cellToAddToken)
+    // console.log(cellToAddToken[i], cellClicked.id, '<this is id', cellClicked.value, "value");
+    //    console.log(cellsOneThroughNine[cellClicked.id]);
+        if (cellToAddToken.innerHTML === '') {
+            cellToAddToken.innerHTML = currentPlayerTurn;
+            changeTurns(currentPlayerTurn);
         }
     }
+    // checkIfPlayerWon(playerCellChoices, winningPossibilities)
+
+//this function is working
+function changeTurns(player) {
+    if (player === 'X') {
+        currentPlayerTurn = 'O';
+    } else {
+        currentPlayerTurn = 'X';
+    }
+    return currentPlayerTurn;
 }
 
 function checkIfPlayerWon(playerCellChoices, winningsArray) {
@@ -72,7 +87,6 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
             return true;
         }
     }
-    //iterate through winningPossibilities using a for loop
 }
 
 
