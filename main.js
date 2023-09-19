@@ -27,6 +27,8 @@ var winningPossibilities = [
 [3, 5, 7],
 ];
 var currentPlayerTurn = 'X';
+var playerOneChoices = [];
+var playerTwoChoices = [];
 
 
 //Event Listeners Here
@@ -60,6 +62,17 @@ function playerPlays(event) {
             cellToAddToken += currentPlayerTurn;
         }
     }
+}
+
+function checkIfPlayerWon(playerCellChoices, winningsArray) {
+    for (var i = 0; i < winningsArray.length; i++) {
+        if (!playerCellChoices.includes(winningsArray[i])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //iterate through winningPossibilities using a for loop
 }
 
 
