@@ -1,3 +1,9 @@
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+}
 
 td {
     border: 1px solid #000;
@@ -11,3 +17,26 @@ table {
     border-spacing: 0;
     border: none;
 }
+
+.board,
+.tally-section-left,
+.tally-section-right {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    background-color: aquamarine;
+}
+
+.tally-section-left {
+    order: 1;
+}
+
+.board {
+    order: 2;
+}
+
+.tally-section-right {
+    order: 3;
+}
+
+
