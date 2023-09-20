@@ -17,28 +17,28 @@ var boardGame = document.querySelector('.board')
 
 //Variables Here
 var winningPossibilities = [
-[1, 2, 3],
-[4, 5, 6],
-[7, 8, 9],
-[1, 4, 7],
-[2, 5, 8],
-[3, 6, 9],
-[1, 5, 9],
-[3, 5, 7],
+['one', 'two', 'three'],
+['four', 'five', 'six'],
+['seven', 'eight', 'nine'],
+['one', 'four', 'seven'],
+['two', 'five', 'eight'],
+['three', 'six', 'nine'],
+['one', 'five', 'nine'],
+['three', 'five', 'seven'],
 ];
 var currentPlayerTurn = 'X';
 var playerOneChoices = [];
 var playerTwoChoices = [];
 var playerOne = createPlayer(1, 'X');
 var playerTwo = createPlayer(2, 'O');
+var playerOneWins = 0;
+var playerTwoWins = 0;
 var cellClicked;
 
 
 //Event Listeners Here
 window.addEventListener('load', createPlayer);
 boardGame.addEventListener('click', playerPlays);
-
-
 
 //Functions Here
 function createPlayer(playerNumber, token) {
@@ -52,22 +52,22 @@ function createPlayer(playerNumber, token) {
     }
 };
 
-//this function changes betwen X and O when clicking on cells
 function playerPlays(event) {
-    // console.log('hello')
-    //event.target is <td id='one'></td> so the cell clicked.id is one
-    // console.log(event.target);
     cellClicked = event.target.closest('.cells');
     var cellToAddToken = cellsOneThroughNine[cellClicked.id];
-    // console.log(cellToAddToken)
-    // console.log(cellToAddToken[i], cellClicked.id, '<this is id', cellClicked.value, "value");
-    //    console.log(cellsOneThroughNine[cellClicked.id]);
-        if (cellToAddToken.innerHTML === '') {
+        if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
             cellToAddToken.innerHTML = currentPlayerTurn;
+            playerOneChoices.push(cellToAddToken.id);
+            checkIfPlayerWon(playerOneChoices, winningPossibilities)
+            changeTurns(currentPlayerTurn);
+        } else if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'O') {
+            cellToAddToken.innerHTML = currentPlayerTurn;
+            playerTwoChoices.push(cellToAddToken.id);
+            checkIfPlayerWon(playerTwoChoices, winningPossibilities)
             changeTurns(currentPlayerTurn);
         }
     }
-    // checkIfPlayerWon(playerCellChoices, winningPossibilities)
+    
 
 //this function is working
 function changeTurns(player) {
@@ -81,13 +81,33 @@ function changeTurns(player) {
 
 function checkIfPlayerWon(playerCellChoices, winningsArray) {
     for (var i = 0; i < winningsArray.length; i++) {
-        if (!playerCellChoices.includes(winningsArray[i])) {
-            return false;
-        } else {
-            return true;
+        var currentWinningArray = winningsArray[i];
+        var checkEveryInArray = currentWinningArray.every(function(cells) {
+            return playerCellChoices.includes(cells);
+        })
+        if (checkEveryInArray && currentPlayerTurn === 'X') {
+            playerOneWins++;
+            alert('Player One Wins!')
+            return playerOneWins;
+        } else if (checkEveryInArray && currentPlayerTurn === 'O') {
+            playerTwoWins++;
+            alert('Player Two Wins');
+            return playerTwoWins;
         }
     }
+    return 'still playing'
 }
 
 
+// console.log(winner, 'current winning possibility being checked');
+// console.log(playerCellChoices) this is logging expected results;
+// console.log(winningsArray[i]); this is only logging the first array in winningsArray
 
+//could i do:
+//winningCombos {
+//     possOne: 1,2,3
+//     possTwo: 4,5,6
+//     possThree: 7,8,9
+// }
+
+//
