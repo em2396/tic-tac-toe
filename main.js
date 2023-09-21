@@ -12,8 +12,9 @@ var cellsOneThroughNine = {
     eight: document.querySelector('#eight'),
     nine: document.querySelector('#nine')
 }
-var whosTurn = document.querySelector('.whos-turn-is-it')
-var boardGame = document.querySelector('.board')
+var whosTurn = document.querySelector('.whos-turn-is-it');
+var boardGame = document.querySelector('.board');
+var playingSection = document.querySelector('#playing-section');
 
 //Variables Here
 var winningPossibilities = [
@@ -38,7 +39,11 @@ var cellClicked;
 
 //Event Listeners Here
 window.addEventListener('load', createPlayer);
-boardGame.addEventListener('click', playerPlays);
+playingSection.addEventListener('click', function(event) {
+    if (event.target.classList.contains('cells')) {
+        playerPlays(event);
+    }
+});
 
 //Functions Here
 function createPlayer(playerNumber, token) {
@@ -53,9 +58,14 @@ function createPlayer(playerNumber, token) {
 };
 
 function playerPlays(event) {
+    console.log('click')
     cellClicked = event.target.closest('.cells');
+    console.log(cellClicked, 'cellClicked');
     var cellToAddToken = cellsOneThroughNine[cellClicked.id];
+    console.log(cellToAddToken, 'cellToAddToken')
+    console.log(currentPlayerTurn, 'current player turn')
         if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
+            console.log('hi')
             cellToAddToken.innerHTML = currentPlayerTurn;
             playerOneChoices.push(cellToAddToken.id);
             checkIfPlayerWon(playerOneChoices, winningPossibilities)
@@ -87,27 +97,47 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
         })
         if (checkEveryInArray && currentPlayerTurn === 'X') {
             playerOneWins++;
-            alert('Player One Wins!')
-            return playerOneWins;
+            resetBoard();
         } else if (checkEveryInArray && currentPlayerTurn === 'O') {
             playerTwoWins++;
-            alert('Player Two Wins');
-            return playerTwoWins;
+            resetBoard();
         }
     }
-    return 'still playing'
 }
 
+function resetBoard() {
+    if (whosTurn.innerText === 'It\'s X\'s Turn!') {
+        whosTurn.innerText = 'It\'s O\'s Turn!';
+        currentPlayerTurn = 'O'; 
+    } else {
+        whosTurn.innerText = 'It\'s X\'s Turn!';
+        currentPlayerTurn = 'X';
+    }
+    boardGame.innerHTML = '';
+    boardGame.innerHTML = 
+    `<tr class="row-one">
+        <td class="cells" id="one"></td>
+        <td class="cells" id="two"></td>
+        <td class="cells" id="three"></td>
+      </tr>
+      <tr>
+        <td class="cells" id="four"></td>
+        <td class="cells" id="five"></td>
+        <td class="cells" id="six"></td>
+      </tr>
+      <tr>
+        <td class="cells" id="seven"></td>
+        <td class="cells" id="eight"></td>
+        <td class="cells" id="nine"></td>
+      </tr>`
+      console.log(currentPlayerTurn, 'exiting reset board')
+      setTimeout(function () {
+          return currentPlayerTurn, 1000})
+}
 
-// console.log(winner, 'current winning possibility being checked');
-// console.log(playerCellChoices) this is logging expected results;
-// console.log(winningsArray[i]); this is only logging the first array in winningsArray
-
-//could i do:
-//winningCombos {
-//     possOne: 1,2,3
-//     possTwo: 4,5,6
-//     possThree: 7,8,9
-// }
-
-//
+//Get h1 to update every time a player plays may need to create a new function
+//increment the score of the winner
+//create a draw scenario
+//refactor code
+//make CSS look better
+//choose a font
