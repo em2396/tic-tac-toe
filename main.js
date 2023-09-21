@@ -39,7 +39,11 @@ var cellClicked;
 
 //Event Listeners Here
 window.addEventListener('load', createPlayer);
-boardGame.addEventListener('click', playerPlays);
+playingSection.addEventListener('click', function(event) {
+    if (event.target.classList.contains('cells')) {
+        playerPlays(event);
+    }
+});
 
 //Functions Here
 function createPlayer(playerNumber, token) {
@@ -54,9 +58,14 @@ function createPlayer(playerNumber, token) {
 };
 
 function playerPlays(event) {
+    console.log('click')
     cellClicked = event.target.closest('.cells');
+    console.log(cellClicked, 'cellClicked');
     var cellToAddToken = cellsOneThroughNine[cellClicked.id];
+    console.log(cellToAddToken, 'cellToAddToken')
+    console.log(currentPlayerTurn, 'current player turn')
         if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
+            console.log('hi')
             cellToAddToken.innerHTML = currentPlayerTurn;
             playerOneChoices.push(cellToAddToken.id);
             checkIfPlayerWon(playerOneChoices, winningPossibilities)
@@ -98,7 +107,7 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
 
 function resetBoard() {
     if (whosTurn.innerText === 'It\'s X\'s Turn!') {
-        whosTurn.innerText = 'It\'s O\'s Turn!'
+        whosTurn.innerText = 'It\'s O\'s Turn!';
         currentPlayerTurn = 'O'; 
     } else {
         whosTurn.innerText = 'It\'s X\'s Turn!';
@@ -121,6 +130,14 @@ function resetBoard() {
         <td class="cells" id="eight"></td>
         <td class="cells" id="nine"></td>
       </tr>`
-      incrementScore()
+      console.log(currentPlayerTurn, 'exiting reset board')
+      setTimeout(function () {
+          return currentPlayerTurn, 1000})
 }
 
+//Get h1 to update every time a player plays may need to create a new function
+//increment the score of the winner
+//create a draw scenario
+//refactor code
+//make CSS look better
+//choose a font
