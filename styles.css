@@ -10,6 +10,7 @@
 
 table {
     border-spacing: 0;
+    cursor: pointer;
 }
 
 .cells {
@@ -18,9 +19,9 @@ table {
     border: 3px solid #000;
 }
 
-#playing-section,
-#tally-section-left,
-#tally-section-right {
+#playingSection,
+#tallySectionLeft,
+#tallySectionRight {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
@@ -28,13 +29,13 @@ table {
     font-size: 60px;
 }
 
-#tally-section-left {
+#tallySectionLeft {
     order: 1;
     width: 25%;
     background-color: rgb(58, 139, 231);
 }
 
-#playing-section {
+#playingSection {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,7 +45,7 @@ table {
     text-align: center;
 }
 
-#tally-section-right {
+#tallySectionRight {
     order: 3;
     width: 25%;
     background-color: black;

@@ -1,6 +1,6 @@
 //QuerySelectors Here
-var playerOneWins = document.querySelector('#left-wins');
-var playerTwoWins = document.querySelector('#right-wins');
+var leftWins = document.querySelector('#leftWins');
+var rightWins = document.querySelector('#rightWins');
 var cellsOneThroughNine = {
     one: document.querySelector('#one'),
     two: document.querySelector('#two'),
@@ -14,9 +14,15 @@ var cellsOneThroughNine = {
 }
 var whosTurn = document.querySelector('.whos-turn-is-it');
 var boardGame = document.querySelector('.board');
-var playingSection = document.querySelector('#playing-section');
+var playingSection = document.querySelector('#playingSection');
 
 //Variables Here
+var currentPlayerTurn = 'X';
+var startOfGameTurn = 'X';
+var playerOne = createPlayer(1, 'X');
+var playerTwo = createPlayer(2, 'O');
+var cellClicked;
+var cellsClickedCount = 0;
 var winningPossibilities = [
 ['one', 'two', 'three'],
 ['four', 'five', 'six'],
@@ -27,14 +33,6 @@ var winningPossibilities = [
 ['one', 'five', 'nine'],
 ['three', 'five', 'seven'],
 ];
-var currentPlayerTurn = 'X';
-var playerOneChoices = [];
-var playerTwoChoices = [];
-var playerOne = createPlayer(1, 'X');
-var playerTwo = createPlayer(2, 'O');
-var playerOneWins = 0;
-var playerTwoWins = 0;
-var cellClicked;
 
 
 //Event Listeners Here
@@ -53,38 +51,36 @@ function createPlayer(playerNumber, token) {
         wins: 0,
         losses: 0,
         draws: 0,
+        choices: []
 
     }
 };
 
 function playerPlays(event) {
-    console.log('click')
     cellClicked = event.target.closest('.cells');
-    console.log(cellClicked, 'cellClicked');
     var cellToAddToken = cellsOneThroughNine[cellClicked.id];
-    console.log(cellToAddToken, 'cellToAddToken')
-    console.log(currentPlayerTurn, 'current player turn')
         if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
-            console.log('hi')
+            cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
-            playerOneChoices.push(cellToAddToken.id);
-            checkIfPlayerWon(playerOneChoices, winningPossibilities)
+            playerOne.choices.push(cellToAddToken.id);
+            checkIfPlayerWon(playerOne.choices, winningPossibilities)
             changeTurns(currentPlayerTurn);
         } else if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'O') {
+            cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
-            playerTwoChoices.push(cellToAddToken.id);
-            checkIfPlayerWon(playerTwoChoices, winningPossibilities)
+            playerTwo.choices.push(cellToAddToken.id);
+            checkIfPlayerWon(playerTwo.choices, winningPossibilities)
             changeTurns(currentPlayerTurn);
         }
     }
     
-
-//this function is working
-function changeTurns(player) {
-    if (player === 'X') {
+function changeTurns(currentPlayer) {
+    if (currentPlayer === 'X') {
         currentPlayerTurn = 'O';
+        whosTurn.innerText = 'It\'s O\'s Turn!';
     } else {
         currentPlayerTurn = 'X';
+        whosTurn.innerText = 'It\'s X\'s Turn!';
     }
     return currentPlayerTurn;
 }
@@ -94,25 +90,46 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
         var currentWinningArray = winningsArray[i];
         var checkEveryInArray = currentWinningArray.every(function(cells) {
             return playerCellChoices.includes(cells);
-        })
+        });
         if (checkEveryInArray && currentPlayerTurn === 'X') {
-            playerOneWins++;
-            resetBoard();
+            playerOne.wins++;
+            leftWins.innerText = playerOne.wins + ' Wins';
+            playerTwo.losses++;
+            playerOne.choices = [];
+            playerTwo.choices = [];
+            setTimeout(resetBoard, 1000);   
         } else if (checkEveryInArray && currentPlayerTurn === 'O') {
-            playerTwoWins++;
-            resetBoard();
-        }
+            playerTwo.wins++;
+            rightWins.innerText = playerTwo.wins + ' Wins';
+            playerOne.losses++;
+            playerOne.choices = [];
+            playerTwo.choices = [];
+            setTimeout(resetBoard, 1000);
+        } 
+    }
+    checkIfDraw();
+}
+
+function checkIfDraw() {
+    if (cellsClickedCount === 9) {
+        console.log('..........')
+        playerOne.choices = [];
+        playerTwo.choices = [];
+        playerOne.draws++;
+        playerTwo.draws++;
+        setTimeout(resetBoard, 1000);
     }
 }
 
 function resetBoard() {
-    if (whosTurn.innerText === 'It\'s X\'s Turn!') {
-        whosTurn.innerText = 'It\'s O\'s Turn!';
-        currentPlayerTurn = 'O'; 
+    if (startOfGameTurn === 'X') {
+        whosTurn.innerText = 'It\'s O\'s Turn!'; 
+        startOfGameTurn = 'O';
     } else {
         whosTurn.innerText = 'It\'s X\'s Turn!';
-        currentPlayerTurn = 'X';
+        startOfGameTurn = 'X';
     }
+    currentPlayerTurn = startOfGameTurn;
     boardGame.innerHTML = '';
     boardGame.innerHTML = 
     `<tr class="row-one">
@@ -130,13 +147,12 @@ function resetBoard() {
         <td class="cells" id="eight"></td>
         <td class="cells" id="nine"></td>
       </tr>`
-      console.log(currentPlayerTurn, 'exiting reset board')
-      setTimeout(function () {
-          return currentPlayerTurn, 1000})
+      console.log('exiting reset function', currentPlayerTurn)
 }
 
-//Get h1 to update every time a player plays may need to create a new function
-//increment the score of the winner
+//Get h1 to update every time a player plays may need to create a new function ..
+//increment the score of the winner ..
+//change cursor back to mouse when space is full
 //create a draw scenario
 //refactor code
 //make CSS look better
