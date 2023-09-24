@@ -1,6 +1,9 @@
 //QuerySelectors Here
 var leftWins = document.querySelector('#leftWins');
 var rightWins = document.querySelector('#rightWins');
+var whosTurn = document.querySelector('.whos-turn-is-it');
+var boardGame = document.querySelector('.board');
+var playingSection = document.querySelector('#playingSection');
 var cellsOneThroughNine = {
     one: document.querySelector('#one'),
     two: document.querySelector('#two'),
@@ -12,11 +15,9 @@ var cellsOneThroughNine = {
     eight: document.querySelector('#eight'),
     nine: document.querySelector('#nine')
 }
-var whosTurn = document.querySelector('.whos-turn-is-it');
-var boardGame = document.querySelector('.board');
-var playingSection = document.querySelector('#playingSection');
 
 //Variables Here
+var cellToAddToken;
 var currentPlayerTurn = 'X';
 var startOfGameTurn = 'X';
 var playerOne = createPlayer(1, 'X');
@@ -58,14 +59,22 @@ function createPlayer(playerNumber, token) {
 
 function playerPlays(event) {
     cellClicked = event.target.closest('.cells');
-    var cellToAddToken = cellsOneThroughNine[cellClicked.id];
-        if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
+    console.log(event.target, 'event.target');
+    console.log(cellClicked, "cell Clicked");
+    //on Reset, cell Clicked and event.target don't have X or O, whereas cellToAddToken = X
+    cellToAddToken = cellsOneThroughNine[cellClicked.id];
+    var cellContent = cellToAddToken.innerHTML;
+    console.log(cellToAddToken.innerHTML, 'innerHTML', cellContent, 'cc')
+    console.log(cellClicked.id, 'cellClicked ID'); //cellClicked.id still = correct id.
+    console.log(cellToAddToken, 'cell to add token to'); //this isn't resetting when reset function
+        if (cellContent === '' && currentPlayerTurn === 'X') {
+            console.log('made it here')
             cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
             playerOne.choices.push(cellToAddToken.id);
             checkIfPlayerWon(playerOne.choices, winningPossibilities)
             changeTurns(currentPlayerTurn);
-        } else if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'O') {
+        } else if (cellContent === '' && currentPlayerTurn === 'O') {
             cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
             playerTwo.choices.push(cellToAddToken.id);
@@ -132,7 +141,7 @@ function resetBoard() {
     currentPlayerTurn = startOfGameTurn;
     boardGame.innerHTML = '';
     boardGame.innerHTML = 
-    `<tr class="row-one">
+    `<tr>
         <td class="cells" id="one"></td>
         <td class="cells" id="two"></td>
         <td class="cells" id="three"></td>
@@ -147,7 +156,9 @@ function resetBoard() {
         <td class="cells" id="eight"></td>
         <td class="cells" id="nine"></td>
       </tr>`
+      cellToAddToken.innerHTML = '';
       console.log('exiting reset function', currentPlayerTurn)
+      return cellToAddToken;
 }
 
 //Get h1 to update every time a player plays may need to create a new function ..
