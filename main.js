@@ -1,6 +1,10 @@
 //QuerySelectors Here
 var leftWins = document.querySelector('#leftWins');
 var rightWins = document.querySelector('#rightWins');
+var whosTurn = document.querySelector('.whos-turn-is-it');
+var boardGame = document.querySelector('.board');
+var playingSection = document.querySelector('#playingSection');
+var cellsClasses = document.querySelectorAll('.cells');
 var cellsOneThroughNine = {
     one: document.querySelector('#one'),
     two: document.querySelector('#two'),
@@ -12,9 +16,6 @@ var cellsOneThroughNine = {
     eight: document.querySelector('#eight'),
     nine: document.querySelector('#nine')
 }
-var whosTurn = document.querySelector('.whos-turn-is-it');
-var boardGame = document.querySelector('.board');
-var playingSection = document.querySelector('#playingSection');
 
 //Variables Here
 var currentPlayerTurn = 'X';
@@ -58,7 +59,7 @@ function createPlayer(playerNumber, token) {
 
 function playerPlays(event) {
     cellClicked = event.target.closest('.cells');
-    var cellToAddToken = cellsOneThroughNine[cellClicked.id];
+    cellToAddToken = cellsOneThroughNine[cellClicked.id];
         if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
             cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
@@ -95,15 +96,11 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
             playerOne.wins++;
             leftWins.innerText = playerOne.wins + ' Wins';
             playerTwo.losses++;
-            playerOne.choices = [];
-            playerTwo.choices = [];
             setTimeout(resetBoard, 1000);   
         } else if (checkEveryInArray && currentPlayerTurn === 'O') {
             playerTwo.wins++;
             rightWins.innerText = playerTwo.wins + ' Wins';
             playerOne.losses++;
-            playerOne.choices = [];
-            playerTwo.choices = [];
             setTimeout(resetBoard, 1000);
         } 
     }
@@ -112,16 +109,19 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
 
 function checkIfDraw() {
     if (cellsClickedCount === 9) {
-        console.log('..........')
         playerOne.choices = [];
         playerTwo.choices = [];
         playerOne.draws++;
         playerTwo.draws++;
+        alert('It\'s a draw!')
         setTimeout(resetBoard, 1000);
     }
 }
 
 function resetBoard() {
+    cellsClickedCount = 0;
+    playerOne.choices = [];
+    playerTwo.choices = [];
     if (startOfGameTurn === 'X') {
         whosTurn.innerText = 'It\'s O\'s Turn!'; 
         startOfGameTurn = 'O';
@@ -130,24 +130,9 @@ function resetBoard() {
         startOfGameTurn = 'X';
     }
     currentPlayerTurn = startOfGameTurn;
-    boardGame.innerHTML = '';
-    boardGame.innerHTML = 
-    `<tr class="row-one">
-        <td class="cells" id="one"></td>
-        <td class="cells" id="two"></td>
-        <td class="cells" id="three"></td>
-      </tr>
-      <tr>
-        <td class="cells" id="four"></td>
-        <td class="cells" id="five"></td>
-        <td class="cells" id="six"></td>
-      </tr>
-      <tr>
-        <td class="cells" id="seven"></td>
-        <td class="cells" id="eight"></td>
-        <td class="cells" id="nine"></td>
-      </tr>`
-      console.log('exiting reset function', currentPlayerTurn)
+    for (var i = 0; i < cellsClasses.length; i++) {
+        cellsClasses[i].innerText = '';
+    }
 }
 
 //Get h1 to update every time a player plays may need to create a new function ..
