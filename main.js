@@ -61,10 +61,8 @@ function playerPlays(event) {
     cellClicked = event.target.closest('.cells');
     cellToAddToken = cellsOneThroughNine[cellClicked.id];
         if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
-            console.log('made it here')
             cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
-            console.log(cellToAddToken, 'in if statement');
             playerOne.choices.push(cellToAddToken.id);
             checkIfPlayerWon(playerOne.choices, winningPossibilities)
             changeTurns(currentPlayerTurn);
@@ -111,16 +109,17 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
 
 function checkIfDraw() {
     if (cellsClickedCount === 9) {
-        console.log('..........')
         playerOne.choices = [];
         playerTwo.choices = [];
         playerOne.draws++;
         playerTwo.draws++;
+        alert('It\'s a draw!')
         setTimeout(resetBoard, 1000);
     }
 }
 
 function resetBoard() {
+    cellsClickedCount = 0;
     playerOne.choices = [];
     playerTwo.choices = [];
     if (startOfGameTurn === 'X') {
