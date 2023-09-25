@@ -4,6 +4,7 @@ var rightWins = document.querySelector('#rightWins');
 var whosTurn = document.querySelector('.whos-turn-is-it');
 var boardGame = document.querySelector('.board');
 var playingSection = document.querySelector('#playingSection');
+var cellsClasses = document.querySelectorAll('.cells');
 var cellsOneThroughNine = {
     one: document.querySelector('#one'),
     two: document.querySelector('#two'),
@@ -17,7 +18,6 @@ var cellsOneThroughNine = {
 }
 
 //Variables Here
-var cellToAddToken;
 var currentPlayerTurn = 'X';
 var startOfGameTurn = 'X';
 var playerOne = createPlayer(1, 'X');
@@ -59,22 +59,16 @@ function createPlayer(playerNumber, token) {
 
 function playerPlays(event) {
     cellClicked = event.target.closest('.cells');
-    console.log(event.target, 'event.target');
-    console.log(cellClicked, "cell Clicked");
-    //on Reset, cell Clicked and event.target don't have X or O, whereas cellToAddToken = X
     cellToAddToken = cellsOneThroughNine[cellClicked.id];
-    var cellContent = cellToAddToken.innerHTML;
-    console.log(cellToAddToken.innerHTML, 'innerHTML', cellContent, 'cc')
-    console.log(cellClicked.id, 'cellClicked ID'); //cellClicked.id still = correct id.
-    console.log(cellToAddToken, 'cell to add token to'); //this isn't resetting when reset function
-        if (cellContent === '' && currentPlayerTurn === 'X') {
+        if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'X') {
             console.log('made it here')
             cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
+            console.log(cellToAddToken, 'in if statement');
             playerOne.choices.push(cellToAddToken.id);
             checkIfPlayerWon(playerOne.choices, winningPossibilities)
             changeTurns(currentPlayerTurn);
-        } else if (cellContent === '' && currentPlayerTurn === 'O') {
+        } else if (cellToAddToken.innerHTML === '' && currentPlayerTurn === 'O') {
             cellsClickedCount++;
             cellToAddToken.innerHTML = currentPlayerTurn;
             playerTwo.choices.push(cellToAddToken.id);
@@ -104,15 +98,11 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
             playerOne.wins++;
             leftWins.innerText = playerOne.wins + ' Wins';
             playerTwo.losses++;
-            playerOne.choices = [];
-            playerTwo.choices = [];
             setTimeout(resetBoard, 1000);   
         } else if (checkEveryInArray && currentPlayerTurn === 'O') {
             playerTwo.wins++;
             rightWins.innerText = playerTwo.wins + ' Wins';
             playerOne.losses++;
-            playerOne.choices = [];
-            playerTwo.choices = [];
             setTimeout(resetBoard, 1000);
         } 
     }
@@ -131,6 +121,8 @@ function checkIfDraw() {
 }
 
 function resetBoard() {
+    playerOne.choices = [];
+    playerTwo.choices = [];
     if (startOfGameTurn === 'X') {
         whosTurn.innerText = 'It\'s O\'s Turn!'; 
         startOfGameTurn = 'O';
@@ -139,26 +131,9 @@ function resetBoard() {
         startOfGameTurn = 'X';
     }
     currentPlayerTurn = startOfGameTurn;
-    boardGame.innerHTML = '';
-    boardGame.innerHTML = 
-    `<tr>
-        <td class="cells" id="one"></td>
-        <td class="cells" id="two"></td>
-        <td class="cells" id="three"></td>
-      </tr>
-      <tr>
-        <td class="cells" id="four"></td>
-        <td class="cells" id="five"></td>
-        <td class="cells" id="six"></td>
-      </tr>
-      <tr>
-        <td class="cells" id="seven"></td>
-        <td class="cells" id="eight"></td>
-        <td class="cells" id="nine"></td>
-      </tr>`
-      cellToAddToken.innerHTML = '';
-      console.log('exiting reset function', currentPlayerTurn)
-      return cellToAddToken;
+    for (var i = 0; i < cellsClasses.length; i++) {
+        cellsClasses[i].innerText = '';
+    }
 }
 
 //Get h1 to update every time a player plays may need to create a new function ..
