@@ -11,7 +11,7 @@ The app can be viewed and interacted with in your browser of choice by using `op
 
 
 ## Preview of App
-![Screenshot](/Users/emaleepoellot/mod1/tic-tac-toe/Screenshot 2023-09-25 at 7.44.44 PM.png)
+![ScreenshotTicTacToe](https://user-images.githubusercontent.com/116819092/270779352-c4a065e5-2c07-454f-b156-e9f136d50d2b.png)
 
 ## Context
 This project is from Week 5, Mod 1 of the Turing Front-End Engineering Program. This was a solo project and the final project to continue to the next Module. 
