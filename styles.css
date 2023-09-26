@@ -13,83 +13,83 @@ h1 {
 }
 
 h2 {
-    margin: 0px;
+  margin: 0px;
 }
 
 .whos-turn-is-it {
-    margin-top: 120px;
-    margin-bottom: 130px;
+  margin-top: 120px;
+  margin-bottom: 130px;
 }
 
 #playingSection,
 #tallySectionLeft,
 #tallySectionRight {
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 45px;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 45px;
 }
 
 #tallySectionLeft {
-    order: 1;
-    width: 25vw;
-    background-color: rgb(58, 139, 231);
+  order: 1;
+  width: 25vw;
+  background-color: rgb(58, 139, 231);
 }
 
 #playingSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50vw;
-    order: 2;
-    background-color: white;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+  order: 2;
+  background-color: white;
+  text-align: center;
 }
 
 #tallySectionRight {
-    order: 3;
-    width: 25vw;
-    background-color: black;
-    color: white;
+  order: 3;
+  width: 25vw;
+  background-color: black;
+  color: white;
 }
 
 table {
-    padding: 10px;
-    text-align: center;
-    background-color: white;
-    justify-content: center;
-    border-spacing: 0;
-    cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  background-color: white;
+  justify-content: center;
+  border-spacing: 0;
+  cursor: pointer;
 }
 
 .cells {
-    height: 120px;
-    width: 120px;
-    border: 3px solid #000;
+  height: 120px;
+  width: 120px;
+  border: 3px solid #000;
 }
 
 #one, 
 #four,
 #seven {
-    border-left: none;
+  border-left: 0;
 }
 
 #one,
 #two,
 #three {
-    border-top: none;
+  border-top: 0;
 }
 
 #three,
 #six,
 #nine {
-    border-right: none;
+  border-right: 0;
 }
 
 #seven,
 #eight,
 #nine {
-    border-bottom: none;
+  border-bottom: 0;
 }
 
 

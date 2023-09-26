@@ -51,8 +51,8 @@ function createPlayer(playerName, token) {
         name: playerName,
         token: token,
         wins: 0,
+        draws: 0,
         choices: []
-
     }
 };
 
@@ -85,7 +85,6 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
         checkEveryInArray = currentWinningArray.every(function(cells) {
             return playerCellChoices.includes(cells);
         });
-        console.log(currentPlayerTurn.token)
         if (checkEveryInArray && currentPlayerTurn.token === 'X') {
             playerOne.wins++;
             leftWins.innerText = playerOne.wins + ' Wins';
@@ -103,9 +102,9 @@ function checkIfPlayerWon(playerCellChoices, winningsArray) {
 function updateBanner() {
     if (playerWins === false && cellsClickedCount < 9) {
         whosTurn.innerText = `It's ${currentPlayerTurn.token}'s Turn!`; 
-    } else if (playerWins && currentPlayerTurn.token !== 'X'){
+    } else if (playerWins && currentPlayerTurn.token !== 'X') {
         whosTurn.innerText = `X WINS!`;
-    } else if (playerWins && currentPlayerTurn.token !== 'O'){
+    } else if (playerWins && currentPlayerTurn.token !== 'O') {
         whosTurn.innerText = 'O WINS!';
     } else {
         whosTurn.innerText = `It's a Draw!`
