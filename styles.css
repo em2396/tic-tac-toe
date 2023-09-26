@@ -1,15 +1,15 @@
 body {
-    font-family: 'Fuggles', sans-serif;
-    display: flex;
-    flex-direction: row;
-    position: fixed;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
+  font-family: 'Fuggles', sans-serif;
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
 }
 
 h1 {
-    margin: 10px;
+  margin: 10px;
 }
 
 h2 {
