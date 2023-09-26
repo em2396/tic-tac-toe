@@ -2,7 +2,6 @@
 var leftWins = document.querySelector('#leftWins');
 var rightWins = document.querySelector('#rightWins');
 var whosTurn = document.querySelector('.whos-turn-is-it');
-var boardGame = document.querySelector('.board');
 var playingSection = document.querySelector('#playingSection');
 var cellsClasses = document.querySelectorAll('.cells');
 var cellsOneThroughNine = {
@@ -136,12 +135,3 @@ function resetBoard() {
         cellsClasses[i].innerText = '';
     }
 }
-
-//Get h1 to update every time a player plays may need to create a new function ..
-//increment the score of the winner ..
-//change cursor back to mouse when space is full
-//create a draw scenario
-//refactor code
-//make CSS look better ..
-//choose a font
-//top banner needs to display who wins and if it's a draw
